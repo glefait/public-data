@@ -11,7 +11,7 @@
     <script>
       var chart;
       d3.csv(
-        'https://raw.githubusercontent.com/glefait/public-data/main/orgb.csv'
+        'https://guillem.lefait.fr/public-data/mq/ctm/organigramme/organigramme.csv'
       ).then((dataFlattened) => {
         chart = new d3.OrgChart()
           .container('.chart-container')
@@ -34,14 +34,14 @@
                    <div style="color:#111672;font-size:16px;font-weight:bold"> ${
                      d.data.positionName
                    } </div>
-                   
-               </div> 
+
+               </div>
                ${d.data._directSubordinates + d.data._totalSubordinates > 0 ?`
                <div style="display:flex;justify-content:space-between;padding-left:15px;padding-right:15px;">
-                 <div > Manages:  ${d.data._directSubordinates} 👤</div>  
-                 <div > Oversees: ${d.data._totalSubordinates} 👤</div>    
+                 <div > Manages:  ${d.data._directSubordinates} 👤</div>
+                 <div > Oversees: ${d.data._totalSubordinates} 👤</div>
                </div>` : ``}
-              </div>     
+              </div>
       </div>
   `;
           })
