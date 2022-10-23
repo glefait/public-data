@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Organigramme</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-org-chart@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-flextree@2.1.2/build/d3-flextree.js"></script>
+  </head>
+  <body>
+    <div class="chart-container" style="height: 1200px; background-color: #f6f6f6"></div>
+    <script>
+      var chart;
+      d3.csv(
+        'https://guillem.lefait.fr/public-data/mq/ctm/organigramme/organigramme.csv'
+      ).then((dataFlattened) => {
+        chart = new d3.OrgChart()
+          .container('.chart-container')
+          .data(dataFlattened)
+          .nodeWidth((d) => 250)
+          .initialZoom(0.7)
+          .nodeHeight((d) => 175)
+          .childrenMargin((d) => 40)
+          .compactMarginBetween((d) => 15)
+          .compactMarginPair((d) => 80)
+          .nodeContent(function (d, i, arr, state) {
+            return `
+            <div style="padding-top:30px;background-color:none;margin-left:1px;height:${
+              d.height
+            }px;border-radius:2px;overflow:visible">
+              <div style="height:${
+                d.height - 32
+              }px;padding-top:0px;background-color:white;border:1px solid lightgray;">
+               <div style="padding:20px; padding-top:35px;text-align:center">
+                   <div style="color:#111672;font-size:16px;font-weight:bold"> ${
+                     d.data.positionName
+                   } </div>
+
+               </div>
+               ${d.data._directSubordinates + d.data._totalSubordinates > 0 ?`
+               <div style="display:flex;justify-content:space-between;padding-left:15px;padding-right:15px;">
+                 <div > Manages:  ${d.data._directSubordinates} 👤</div>
+                 <div > Oversees: ${d.data._totalSubordinates} 👤</div>
+               </div>` : ``}
+              </div>
+      </div>
+  `;
+          })
+          .render();
+      });
+    </script>
+  </body>
+</html>
