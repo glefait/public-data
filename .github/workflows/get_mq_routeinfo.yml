@@ -9,7 +9,6 @@ jobs:
       # Step 1: Checkout the repository
       - uses: actions/checkout@v2
       - name: get data
-        uses: actions/curl@v2
         with:
           url: 'http://inforoute972.collectivitedemartinique.mq/trafic'
           output: 'data.json'
