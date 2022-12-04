@@ -9,9 +9,7 @@ jobs:
       # Step 1: Checkout the repository
       - uses: actions/checkout@v2
       - name: get data
-        with:
-          url: 'http://inforoute972.collectivitedemartinique.mq/trafic'
-          output: 'data.json'
+        run: curl 'http://inforoute972.collectivitedemartinique.mq/trafic' > 'data.json'
       - name: Extract all keywords from package.json
         uses: sergeysova/jq-action@v2
         id: transform
