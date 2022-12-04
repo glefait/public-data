@@ -14,4 +14,4 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: transform
         with:
-          cmd: jq -r '"\(now|strftime("%Y-%m-%dT%H:%M:%SZ")),\(.tp[].id),\(.tp[].tp),\(.tp[].etat)"' now="$(date -u +'%FT%TZ')" <<< $(cat data.json) >> /mq/routeinfo/tp.csv
+          cmd: jq -r '"\(now|strftime("%Y-%m-%dT%H:%M:%SZ")),\(.tp[].id),\(.tp[].tp),\(.tp[].etat)"' now="$(date -u +'%FT%TZ')" <<< $(cat data.json) >> tp.csv
