@@ -1,0 +1,20 @@
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+    
+jobs: 
+  get_data:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Checkout the repository
+      - uses: actions/checkout@v2
+      - name: get data
+        uses: actions/curl@v2
+        with:
+          url: 'http://inforoute972.collectivitedemartinique.mq/trafic'
+          output: 'data.json'
+      - name: Extract all keywords from package.json
+        uses: sergeysova/jq-action@v2
+        id: transform
+        with:
+          cmd: jq -r '"\(now|strftime("%Y-%m-%dT%H:%M:%SZ")),\(.tp[].id),\(.tp[].tp),\(.tp[].etat)"' now="$(date -u +'%FT%TZ')" <<< $(cat data.json) >> /mq/routeinfo/tp.csv
