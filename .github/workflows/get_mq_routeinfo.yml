@@ -9,9 +9,12 @@ jobs:
       # Step 1: Checkout the repository
       - uses: actions/checkout@v2
       - name: get data
-        run: curl 'http://inforoute972.collectivitedemartinique.mq/trafic' > 'data.json'
-      - name: Extract all keywords from package.json
-        uses: sergeysova/jq-action@v2
-        id: transform
+        run: curl http://inforoute972.collectivitedemartinique.mq/trafic > data.json
+      - run: mkdir -p /mq/routeinfo
+      - name: print
+        run: jq -r '"\(now|strftime("%Y-%m-%dT%H:%M:%SZ")),\(.tp[].id),\(.tp[].tp),\(.tp[].etat)"' <<< cat data.json >> /mq/routeinfo/tp.csv
+      - uses: actions/upload-artifact@v1
         with:
-          cmd: jq -r '"\(now|strftime("%Y-%m-%dT%H:%M:%SZ")),\(.tp[].id),\(.tp[].tp),\(.tp[].etat)"' now="$(date -u +'%FT%TZ')" <<< $(cat data.json) >> tp.csv
+          name: copy tp.csv
+          path: /mq/routeinfo/tp.csv
+          append: true
