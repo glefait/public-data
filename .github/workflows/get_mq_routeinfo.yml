@@ -17,7 +17,7 @@ jobs:
       - name: get data
         run: curl http://inforoute972.collectivitedemartinique.mq/trafic > data.json
       - name: print
-        run: jq -r '"\(now|strftime("%Y-%m-%dT%H:%M:%SZ")),\(.tp[].id),\(.tp[].tp),\(.tp[].etat)"' <<< cat data.json >> mq/routeinfo/tp.csv
+        run: jq -r '.tp[] | [now|strftime("%Y-%m-%dT%H:%M:%SZ")] + [.id, .tp, .etat]|@csv' <<< cat data.json >> mq/routeinfo/tp.csv
       - name: remove temp file
         run: rm data.json
       - uses: stefanzweifel/git-auto-commit-action@v4
