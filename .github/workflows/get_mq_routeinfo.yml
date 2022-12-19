@@ -1,6 +1,10 @@
 on:
-  schedule:
-    - cron: "*/5 * * * 5"
+  pull_request:
+  push:
+    branches:
+      - main
+  #schedule:
+  #  - cron: "*/5 * * * 5"
     
 jobs: 
   get_data:
@@ -8,13 +12,13 @@ jobs:
     steps:
       # Step 1: Checkout the repository
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - name: get data
         run: curl http://inforoute972.collectivitedemartinique.mq/trafic > data.json
       - run: mkdir -p /mq/routeinfo
       - name: print
         run: jq -r '"\(now|strftime("%Y-%m-%dT%H:%M:%SZ")),\(.tp[].id),\(.tp[].tp),\(.tp[].etat)"' <<< cat data.json >> /mq/routeinfo/tp.csv
-      - uses: actions/upload-artifact@v1
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          name: copy tp.csv
-          path: /mq/routeinfo/tp.csv
-          append: true
+          commit_message: Append to tp
