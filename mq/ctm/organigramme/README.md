@@ -1,3 +1,7 @@
+# TL;DR
+
+Version web de l'(organigramme de la CTM](https://guillem.lefait.fr/public-data/mq/ctm/organigramme/index.html) à partir du document [22-PCE-578](https://www.collectivitedemartinique.mq/docs/actes2022/executif/22-PCE-578-organisation-des-services-de-la-CTM.PDF).
+
 # Organigramme CTM
 
 La CTM est issue de la fusion de la région et du département, et donc des personnels associés à chacun d'eux.
